@@ -22,16 +22,22 @@ BlueF='\e[1;34m'
 ####################################################
 
 # check root, ahahaha you forgot this!
+check_root() {
 if [[ $EUID -ne 0 ]]; then
     echo "ERROR! Run this with root access!"
     exit 1
 fi
+}
 
 # is gparted installed?
-if which gparted >/dev/null; then
-    echo "GParted is not installed!"
-    exit 1
+check_gparted() {
+if ! [ -x "$(command -v gparted)" ]; then
+    echo "GParted is not installed!." >&2
 fi
+}
+
+# starting
+check_root
 
 again='y'
 while  [ $again == 'y' ] || [ $again == 'Y' ];
