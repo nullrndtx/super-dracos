@@ -21,6 +21,18 @@ BlueF='\e[1;34m'
 # OPTIONS
 ####################################################
 
+# check root, ahahaha you forgot this!
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR! Run this with root access!"
+    exit 1
+fi
+
+# is gparted installed?
+if which gparted >/dev/null; then
+    echo "GParted is not installed!"
+    exit 1
+fi
+
 again='y'
 while  [ $again == 'y' ] || [ $again == 'Y' ];
 	do
@@ -74,7 +86,7 @@ echo -e $okegreen"  ------------------------------------------------------------
 
 		if test $Dracosinstall == '1'
 				then
-					echo 
+					echo
 					echo -ne $cyan"  Running Gparted for partition"
 					echo
 					echo -ne " Wait ... "
@@ -105,7 +117,7 @@ echo -e $okegreen"  ------------------------------------------------------------
 					echo
 					mkdir -p /mnt/{iso-dracos,dracos,squash}
 					sleep 1
-					echo 
+					echo
 					echo -ne " The Name of the New Partition ( /dev/sdx ) : "
 					read dev
 					mount -t ext4 $dev /mnt/dracos
